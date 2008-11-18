@@ -1,0 +1,11 @@
+*.class
+*.log
+*~
+*.temp
+dist
+build
+src/tests
+nbproject
+build.xml
+manifest.mf
+navigps.log*
