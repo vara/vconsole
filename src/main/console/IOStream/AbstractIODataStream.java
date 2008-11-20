@@ -23,11 +23,15 @@ public abstract class AbstractIODataStream implements IODataStreamInreface{
 	ins= new InputStreamReader(is);
 	outs= new OutputStreamWriter(os);
     }
-    protected InputStreamReader getInputStream(){
+    public AbstractIODataStream(InputStreamReader is,OutputStreamWriter os){
+	ins= is;
+	outs= os;
+    }
+    public InputStreamReader getInputStreamReader(){
 	return ins;
     }
     
-    protected OutputStreamWriter getOutputStream(){
+    public OutputStreamWriter getOutputStreamWriter(){
 	return outs;
     }
     public abstract boolean closeInputStream();

@@ -7,6 +7,7 @@ package main;
 
 import main.console.IOStream.JavaConsole;
 import main.console.MyConsole;
+import main.net.ssl.SSLConnectionProperties;
 import main.server.Server;
 
 /**
@@ -17,13 +18,16 @@ import main.server.Server;
 public class Core {
 
     
-    public Core(boolean srv){
+    public Core(boolean isServer){
 	
-	if(!srv){
+	if(!isServer){
 	    try{
+		SSLConnectionProperties.setPasswordKeyStore("password");
+		SSLConnectionProperties.setPathToKeystore("../tmp/clientstore");
+		
 		//MyConsole mc = new MyConsole(new SystemConsole());
 		MyConsole mc = new MyConsole(new JavaConsole());
-
+		mc.commandLoop();
 	    }catch(RuntimeException e){
 		System.out.println(""+e.getMessage());
 		exit(1);
@@ -31,12 +35,24 @@ public class Core {
 	}
 	else{
 	    
-	    Server s = new Server();
-	    s.start();
+	    Server s;
+	    try {
+		
+		SSLConnectionProperties.setPasswordKeyStore("password");
+		SSLConnectionProperties.setPathToKeystore("../tmp/serverstore");
+		
+		s = new Server();
+		s.start();
+	    } catch (Exception ex) {
+		System.out.println(""+ex);
+		System.exit(1);
+	    }
+	    
 	}
     }
     
     public static void main(String [] arg){
+	
 	boolean isServer = false;
 	if(arg.length<1)
 	{
@@ -44,18 +60,17 @@ public class Core {
 	    System.exit(1);
 	}
 	for (String str : arg) {
-	    if(str.equals("server")){
-		
-		System.getProperties().put("javax.net.ssl.keyStore","/home/vara/svrkeyStore");		
+	    if(str.equals("server")){		
+		//System.setProperty("javax.net.ssl.keyStore","/home/vara/svrkeyStore");		
 		isServer = true;
 	    }else if(str.equals("client")) {
-		System.getProperties().put("javax.net.ssl.trustStore","/home/vara/svrkeyStore");		
+		//System.setProperty("javax.net.ssl.trustStore","/home/vara/svrkeyStore");		
 		isServer = false;
 	    }else{
 		System.out.println("bad parameters");
 		System.exit(1);
 	    }
-	    System.getProperties().put("javax.net.ssl.keyStorePassword","wara2008");
+	    //System.setProperty("javax.net.ssl.keyStorePassword","wara2008");
 	}
 	new Core(isServer);
     }

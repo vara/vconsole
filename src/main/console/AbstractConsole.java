@@ -26,7 +26,7 @@ public abstract class AbstractConsole implements KeyListener{
     public static final String USER_PROMPT = TIME_FORMAT + " User: ";  
     public static final String PASS_PROMPT = TIME_FORMAT + " Password [%2$s]: ";
     //net
-    public static final String CONNECTION_CLOSED = TIME_FORMAT + " Connection to [%s] closed.";
+    public static final String CONNECTION_CLOSED ="Connection to [%s] closed.";
     
     public AbstractConsole(){
     }

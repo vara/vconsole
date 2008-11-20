@@ -5,8 +5,11 @@
 
 package main.console;
 
+import java.util.Date;
 import main.console.IOStream.IODataStreamInreface;
-import main.klient.ConnectToServer;
+import main.commands.ConnectToServer;
+import main.commands.dir.Dir;
+import main.commands.exec.Exec;
 
 /**
  *
@@ -28,7 +31,13 @@ public enum Command {
  
         @Override  
         public void exec(IODataStreamInreface c, String[] params) throws Exception{  
-            int detailsLevel = 1;  
+            c.println("List of params...");
+	    for (String str : params) {
+		c.println(str);
+	    }
+	    
+	    int detailsLevel = 1;  
+	    
             try{ 
                 detailsLevel = Integer.parseInt(params[0]);
             }catch (NumberFormatException e){// ignore  
@@ -43,6 +52,26 @@ public enum Command {
 	    
     CONNECT(new ConnectToServer(){
 
+	@Override
+	public void exec(IODataStreamInreface c, String[] params) throws Exception {
+	    super.exec(c, params);
+	}
+    }),
+    TIME(new ActionCommand() {
+
+	public void exec(IODataStreamInreface c, String[] params) throws Exception {
+	    c.println((new Date()).toString());
+	}
+    }),
+    DIR(new Dir(){
+	
+	@Override
+	public void exec(IODataStreamInreface c, String[] params) throws Exception {
+	    super.exec(c, params);
+	}
+    }),
+    EXEC(new Exec(){
+	
 	@Override
 	public void exec(IODataStreamInreface c, String[] params) throws Exception {
 	    super.exec(c, params);

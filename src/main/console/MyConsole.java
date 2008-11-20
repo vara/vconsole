@@ -9,6 +9,7 @@ import main.*;
 import java.awt.event.KeyEvent;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.Vector;
 import main.console.IOStream.IODataStreamInreface;
 
 
@@ -23,9 +24,9 @@ public class MyConsole extends AbstractConsole{
     
     public MyConsole(IODataStreamInreface iostream){
 	this.iostream = iostream;
-	if(true){
-	    commandLoop();
-	}
+	
+	String execDir = System.getProperty("user.dir");
+	System.getProperties().setProperty("vconsole.currentDirectory", execDir);
     }
     
     @Override
@@ -60,15 +61,19 @@ public class MyConsole extends AbstractConsole{
     public void commandLoop() {
 	while (true){  	    
 	    
-            String commandLine = iostream.readLine(PROMPT,new Date());  	    
+            String commandLine = iostream.readLine(PROMPT,new Date());
             Scanner scanner = new Scanner(commandLine);  
             if (scanner.hasNext()) { 
 		
-                final String commandName = scanner.next().toUpperCase(); 		
-                try {  
-                    final Command cmd = Enum.valueOf(Command.class, commandName);  
-                    String param = scanner.hasNext() ? scanner.next() : null;  
-                    cmd.exec(iostream, new String[]{param}, new CommandListenerException(){ 
+                final String commandName = scanner.next().toUpperCase();
+		try {  
+                    final Command cmd = Enum.valueOf(Command.class, commandName);
+		    
+		    Vector <String> vecParams = new Vector<String>(1);		    
+		    while(scanner.hasNext()){	vecParams.add(scanner.next());}
+		    
+                    cmd.exec(iostream,(String[]) vecParams.toArray(new String[vecParams.size()]),
+			    new CommandListenerException(){ 
  
                         @Override 
                         public void exception(Exception e){  
@@ -78,10 +83,9 @@ public class MyConsole extends AbstractConsole{
                 }  
                 catch (IllegalArgumentException e){  
                     iostream.printf(UNKNOWN_COMMAND, commandName);  
-                }finally{
-		    //System.out.println("close scanner");
+                }finally{		    
 		    scanner.close(); 
-		}  
+		}
             }
         }
     }

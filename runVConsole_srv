@@ -1,0 +1,2 @@
+cd dist/
+java -Djavax.net.ssl.trustStore=../tmp/cacerts -Djavax.net.debug=handshake -Djavax.net.ssl.trustStorePassword=password -jar *.jar server

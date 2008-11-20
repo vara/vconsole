@@ -8,7 +8,9 @@ package main.console.IOStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
 /**
@@ -19,12 +21,18 @@ public class IOStream extends AbstractIODataStream{
     public static String message = "";    
     private PrintWriter writer;    
     private BufferedReader reader;
-    
+        
     public IOStream(InputStream is,OutputStream os){
 	super(is, os);
 	
-	writer = new PrintWriter(getOutputStream(), true);	
-	reader = new BufferedReader(getInputStream());
+	writer = new PrintWriter(getOutputStreamWriter(), true);	
+	reader = new BufferedReader(getInputStreamReader());
+    }
+    public IOStream(InputStreamReader is,OutputStreamWriter os){
+	super(is, os);
+	
+	writer = new PrintWriter(getOutputStreamWriter(), true);	
+	reader = new BufferedReader(getInputStreamReader());
     }
     
     public Object printf(String format, Object... args) {	
@@ -74,5 +82,9 @@ public class IOStream extends AbstractIODataStream{
     public void closeIOStreams(){
 	closeInputStream();
 	closeOutputStream();
+    }
+    
+    public PrintWriter getPrintStream(){
+	return writer;
     }
 }
