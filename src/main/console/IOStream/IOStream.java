@@ -44,10 +44,10 @@ public class IOStream extends AbstractIODataStream{
     public String readLine(String format, Object... args) {
 	String retStr = null;
 	try{
-	    if(args.length!=0){
-		
-		printf(format, args);
-	    }
+	    if(!format.equals(""))
+		if(args.length!=0)  printf(format, args);
+		else		    printf("%s",format);
+	    
 	    retStr = reader.readLine();	  
 	}catch(Exception ex){System.out.println(""+ex);}	    
 	

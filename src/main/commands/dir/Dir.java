@@ -2,6 +2,8 @@ package main.commands.dir;
 
 import java.io.*;
 import java.util.*;
+import java.util.regex.Pattern;
+import main.commands.exec.Exec;
 import main.console.ActionCommand;
 import main.console.IOStream.IODataStreamInreface;
 
@@ -26,17 +28,25 @@ public class Dir implements ActionCommand {
 	
 	this.parameters = args;
 	String currdir = System.getProperty("vconsole.currentDirectory","/");
+	
 	pwd = new File(currdir);
 	String [] list;
 	if(args.length==0){
 	    list = pwd.list();
 	}else{
-	    list = pwd.list(new DirFilter(args[0]));
+	    //list = pwd.list(new DirFilter(args[0]));
+	    final String regExp = "";
+	    list = pwd.list(new FilenameFilter() {		
+		private Pattern pattern = Pattern.compile(regExp);		
+		public boolean accept(File dir, String name) {
+		    return pattern.matcher(new File(name).getName()).matches();		    
+		}
+	    });
 	}
 	Arrays.sort(list, new AlphabeticComparator());
 	for (String str : list) {
 	    String [] drwx = {"-","-","-","-"};
-	    File f = new File(str);	    
+	    File f = new File(currdir+File.separator+str);	    
 	    
 	    if(f.isDirectory())
 		drwx[0] = "d";
@@ -52,7 +62,6 @@ public class Dir implements ActionCommand {
 	    iostream.println(str);
 	}
     }
-
 
     public void exec(IODataStreamInreface c, String[] params) throws Exception {
 	displayContentDir(c, params);

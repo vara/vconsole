@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package main.commands;
+package main.commands.connect;
 
 import java.util.Date;
 import javax.net.ssl.SSLSocket;
