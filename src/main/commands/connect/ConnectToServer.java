@@ -8,8 +8,8 @@ package main.commands.connect;
 import java.util.Date;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
-import main.console.AbstractConsole;
-import main.console.ActionCommand;
+import main.console.managecomands.AbstractCommand;
+import main.console.managecomands.AbstractConsole;
 import main.console.IOStream.IODataStreamInreface;
 import main.console.IOStream.JavaConsole;
 import main.console.IOStream.SocketAbstractIOStream;
@@ -19,13 +19,16 @@ import main.net.ssl.SSLConnectionProperties;
  *
  * @author vara
  */
-public class ConnectToServer implements ActionCommand{
+public class ConnectToServer extends AbstractCommand{
     
     private String ipServ;
     private int port;
     private SSLSocket sslsocket;
         
     public ConnectToServer(){
+        
+        super("connect");
+        
 	SSLConnectionProperties.setStorePass("password");
 	SSLConnectionProperties.setKeyStore("../tmp/clientstore");
 	setIpServ("192.168.1.101");

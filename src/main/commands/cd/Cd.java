@@ -6,18 +6,17 @@
 package main.commands.cd;
 
 import java.io.File;
-import main.console.ActionCommand;
+import main.console.managecomands.AbstractCommand;
 import main.console.IOStream.IODataStreamInreface;
 
 /**
  *
  * @author vara
  */
-public class Cd implements ActionCommand{
-
-    
+public class Cd extends AbstractCommand{
     
     public Cd(){
+        super("cd");
     }
 
     public void exec(IODataStreamInreface c, String[] params) throws Exception {

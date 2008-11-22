@@ -5,13 +5,14 @@
 
 package main.console;
 
+import main.console.managecomands.AbstractConsole;
+import main.console.managecomands.Command2;
 import main.*;
 import java.awt.event.KeyEvent;
 import java.util.Date;
 import java.util.Scanner;
-import java.util.Vector;
-import main.commands.cd.Cd;
 import main.console.IOStream.IODataStreamInreface;
+import main.console.managecomands.Command2.CommandListenerException;
 
 
 /**
@@ -22,6 +23,8 @@ public class MyConsole extends AbstractConsole{
             
     private IODataStreamInreface iostream;    
     private Users userList = new Users();
+    
+    private static Command2 cmd = Command2.getInstace();
     
     public MyConsole(IODataStreamInreface iostream){
 	this.iostream = iostream;
@@ -77,27 +80,10 @@ public class MyConsole extends AbstractConsole{
             Scanner scanner = new Scanner(commandLine);  
             if (scanner.hasNext()) { 
 		
-                final String commandName = scanner.next().toUpperCase();
+                final String commandName = scanner.next().toLowerCase();
 		try {  
-                    final Command cmd = Enum.valueOf(Command.class, commandName);
-		    
-		    Vector <String> vecParams = new Vector<String>(1);		    
-		    while(scanner.hasNext()){	
-			//find and replace this '~' char to home path 
-			String param = scanner.next();
-			if(param.charAt(0)=='~')
-			    param=System.getProperty("user.home")+param.substring(1);
-			
-			if(param.length()>1 && (param.charAt(0)=='.' && param.charAt(1)=='/')){
-			    param=System.getProperty("vconsole.currentDirectory")+param.substring(1);
-			}			
-			if(param.length()>2 && (param.charAt(0)=='.' && param.charAt(1)=='.' && param.charAt(2)=='/')){
-			    param = Cd.getUpperNoodDir(System.getProperty("vconsole.currentDirectory"))+param.substring(2);
-			}
-			vecParams.add(param);
-		    }
-		    
-                    cmd.exec(iostream,(String[]) vecParams.toArray(new String[vecParams.size()]),
+                    cmd.searchCommand(commandName);
+                    cmd.exec(iostream,ConsoleUtils.validateParameters(scanner),
 			    new CommandListenerException(){ 
  
                         @Override 
@@ -107,7 +93,7 @@ public class MyConsole extends AbstractConsole{
                     });  
                 }  
                 catch (IllegalArgumentException e){  
-                    iostream.printf(UNKNOWN_COMMAND, commandName);  
+                    iostream.printf(UNKNOWN_COMMAND, commandName+" "+e.getMessage());  
                 }finally{		    
 		    scanner.close(); 
 		}
@@ -115,15 +101,18 @@ public class MyConsole extends AbstractConsole{
         }
     }
 
+    @Override
     public void keyTyped(KeyEvent e) {
 	System.out.println(""+e);
     }
 
+    @Override
     public void keyPressed(KeyEvent e) {
 	System.out.println(""+e);
     }
 
+    @Override
     public void keyReleased(KeyEvent e) {
 	System.out.println(""+e);
-    }
+    }    
 }

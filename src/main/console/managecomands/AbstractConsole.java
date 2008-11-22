@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package main.console;
+package main.console.managecomands;
 
 import java.awt.event.KeyListener;
 

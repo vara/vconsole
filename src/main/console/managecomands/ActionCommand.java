@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package main.console;
+package main.console.managecomands;
 
 import main.console.IOStream.IODataStreamInreface;
 
@@ -13,4 +13,5 @@ import main.console.IOStream.IODataStreamInreface;
  */
 public interface ActionCommand {
     void exec(IODataStreamInreface c, String[] params) throws Exception;
+    String getCommandName();
 }

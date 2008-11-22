@@ -5,10 +5,7 @@
 
 package main.commands.exec;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import main.console.ActionCommand;
-import main.console.IOStream.AbstractIODataStream;
+import main.console.managecomands.AbstractCommand;
 import main.console.IOStream.IODataStreamInreface;
 import main.console.IOStream.IOStream;
 import main.console.IOStream.JavaConsole;
@@ -17,9 +14,10 @@ import main.console.IOStream.JavaConsole;
  *
  * @author vara
  */
-public class Exec implements ActionCommand{
+public class Exec extends AbstractCommand{
 
-    public Exec(){	
+    public Exec(){
+        super("exec");
     }
     
     public static void main(String args[]){

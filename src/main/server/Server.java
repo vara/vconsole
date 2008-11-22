@@ -19,7 +19,6 @@ import main.console.MyConsole;
 import main.net.ssl.MyHandshakeListener;
 import main.net.ssl.SSLConnectionProperties;
 
-
 /**
  *
  * @author vara
@@ -36,7 +35,7 @@ public class Server extends AbstractServer implements Runnable{
 
 	    SSLServerSocketFactory sslServFac = 
 		    SSLConnectionProperties.getServerSocketFactory(getType());	    
-	    serverSocket = (SSLServerSocket) sslServFac.createServerSocket(getPort());
+	    serverSocket = (SSLServerSocket) sslServFac.createServerSocket(getPort());	    
 	    
 	} catch (Exception ex) {throw ex;}
     }
@@ -47,6 +46,7 @@ public class Server extends AbstractServer implements Runnable{
     @Override
     public void stop() {}
 
+    @Override
     public void run() {
 	SSLSocket sslsocket= null;	
 	try {
@@ -91,6 +91,7 @@ public class Server extends AbstractServer implements Runnable{
 	public CustomerCertified(int id){
 	    ident =id;
 	}
+        @Override
 	public void handshakeCompleted(HandshakeCompletedEvent arg0) {	    
 	    try {
 	      X509Certificate 

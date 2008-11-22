@@ -10,14 +10,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import main.commands.cp.Cp;
-import main.console.ActionCommand;
+import main.console.managecomands.AbstractCommand;
 import main.console.IOStream.IODataStreamInreface;
 
 /**
  *
  * @author vara
  */
-public class Cat implements ActionCommand{
+public class Cat extends AbstractCommand{
 
     private IODataStreamInreface iostream;
     private boolean dispNumLine=true;
@@ -25,12 +25,14 @@ public class Cat implements ActionCommand{
     private char charEnd = '$';
     
     public Cat(){
+        super("cat");
     }
 
     public void setIOstream(IODataStreamInreface io){
 	iostream = io;
     }
     
+    @Override
     public void exec(IODataStreamInreface c, String[] params) throws Exception {
 	setIOstream(c);
 	if(params.length>0){

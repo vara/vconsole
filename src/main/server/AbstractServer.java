@@ -5,7 +5,7 @@
 
 package main.server;
 
-import main.console.AbstractConsole;
+import main.console.managecomands.AbstractConsole;
 
 /**
  *

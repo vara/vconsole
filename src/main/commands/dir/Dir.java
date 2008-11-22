@@ -3,13 +3,12 @@ package main.commands.dir;
 import java.io.*;
 import java.util.*;
 import java.util.regex.Pattern;
-import main.commands.exec.Exec;
-import main.console.ActionCommand;
+import main.console.managecomands.AbstractCommand;
 import main.console.IOStream.IODataStreamInreface;
 
 import main.console.IOStream.JavaConsole;
 
-public class Dir implements ActionCommand {
+public class Dir extends AbstractCommand {
     
     // Arg given on the command line
     private String parameters[];
@@ -17,6 +16,11 @@ public class Dir implements ActionCommand {
     // The directory we are in;
     private File pwd;
 
+    
+    public Dir(){
+        super("dir");
+    }
+    
     public static void main( String args[] ){
 	
 	Dir d = new Dir();

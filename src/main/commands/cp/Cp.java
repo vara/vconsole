@@ -8,14 +8,14 @@ package main.commands.cp;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import main.console.ActionCommand;
+import main.console.managecomands.AbstractCommand;
 import main.console.IOStream.IODataStreamInreface;
 
 /**
  *
  * @author vara
  */
-public class Cp implements ActionCommand{
+public class Cp extends AbstractCommand{
 
     public static final int OVERWRITE_ALWAYS = 1;
     public static final int OVERWRITE_NEVER = 2;
@@ -31,6 +31,7 @@ public class Cp implements ActionCommand{
     private IODataStreamInreface iostream;    
     
     public Cp(){
+        super("cp");
     }
 
     public void exec(IODataStreamInreface c, String[] params) throws Exception {

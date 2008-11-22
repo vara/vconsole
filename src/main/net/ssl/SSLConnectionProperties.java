@@ -19,19 +19,24 @@ import javax.net.ssl.SSLSocketFactory;
  */
 public class SSLConnectionProperties {
 
-    private static String pathToKeyStore=null;
-    private static String keyStorepassword=null;
-    private static String pathToTrustStore=null;
+    private static String keyStored=null;
+    private static String keyPass=null;
+    private static String storePass=null;    
+    private static String trustStore=null;
+    
     
     public SSLConnectionProperties(){	
     }
     
     protected static SSLContext createSSLContext(String type) throws Exception{
 	
-	if(getPathToKeystore()==null||getPathToKeystore().equals(""))
+	if(getKeyStore()==null||getKeyStore().equals(""))
 	    throw new Exception("[ERROR] Path to key Store is null !\n" +
 				"Try set -Djavax.net.ssl.keyStore=[path to key store]");
-	if(getKeyStorePassword()==null||getKeyStorePassword().equals(""))
+	if(getStorePass()==null||getStorePass().equals(""))
+	    throw new Exception("[ERROR] Password to key Store is null !\n " +
+				"Try set -Djavax.net.ssl.keyStorePassword=[password]");
+	if(getKeyPass()==null||getKeyPass().equals(""))
 	    throw new Exception("[ERROR] Password to key Store is null !\n " +
 				"Try set -Djavax.net.ssl.keyStorePassword=[password]");
 	try {   
@@ -66,13 +71,12 @@ public class SSLConnectionProperties {
 	This type of entry can be used to authenticate other parties.
  */ 
 		KeyStore keyStore;
-		
-				
+
 		keyStore = KeyStore.getInstance("JKS");		
-		keyStore.load(new FileInputStream(getPathToKeystore()),
-					    getKeyStorePassword().toCharArray());		
+		keyStore.load(new FileInputStream(getKeyStore()),
+					    getStorePass().toCharArray());		
 		keyManager = KeyManagerFactory.getInstance("SunX509");
-		keyManager.init(keyStore, getKeyStorePassword().toCharArray());
+		keyManager.init(keyStore, getKeyPass().toCharArray());
 		
 		ctx = SSLContext.getInstance(type);
 		ctx.init(keyManager.getKeyManagers(), null, null);		
@@ -103,28 +107,35 @@ public class SSLConnectionProperties {
 	
     }
     
-    public static void setPathToKeystore(String path){
-	pathToKeyStore = path;
+    public static void setKeyStore(String path){
+	keyStored = path;
     }
     
-    public static String getPathToKeystore(){
-	return pathToKeyStore;
+    public static String getKeyStore(){
+	return keyStored;
     }
-    public static String getKeyStorePassword() {
-	return keyStorepassword;
+    public static String getStorePass() {
+	return storePass;
     }
 
-    public static void setPasswordKeyStore(String aPasswordKeyStore) {
-	keyStorepassword = aPasswordKeyStore;
+    public static void setStorePass(String aPasswordKeyStore) {
+	storePass = aPasswordKeyStore;
     }
     public static void setSSlProperities(String key,String val){
 	System.setProperty(key, val);
     }
-    public static String getPathToTrustStore() {
-	return pathToTrustStore;
+    public static String getTrustStore() {
+	return trustStore;
     }
 
-    public static void setPathToTrustStore(String aPathToTrustStore) {
-	pathToTrustStore = aPathToTrustStore;
+    public static void setTrustStore(String aPathToTrustStore) {
+	trustStore = aPathToTrustStore;
+    }
+    public static String getKeyPass() {
+	return keyPass;
+    }
+
+    public static void setKeyPass(String aKeyPass) {
+	keyPass = aKeyPass;
     }
 }
