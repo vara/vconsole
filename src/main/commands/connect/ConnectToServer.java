@@ -26,8 +26,8 @@ public class ConnectToServer implements ActionCommand{
     private SSLSocket sslsocket;
         
     public ConnectToServer(){
-	SSLConnectionProperties.setPasswordKeyStore("password");
-	SSLConnectionProperties.setPathToKeystore("../tmp/clientstore");
+	SSLConnectionProperties.setStorePass("password");
+	SSLConnectionProperties.setKeyStore("../tmp/clientstore");
 	setIpServ("192.168.1.101");
 	setPort(9999);
     }
@@ -104,6 +104,7 @@ public class ConnectToServer implements ActionCommand{
 			final IODataStreamInreface systemStream){
 	
 	Thread t = new Thread(new Runnable() {
+            @Override
 	    public void run() {
 		String string;
 		

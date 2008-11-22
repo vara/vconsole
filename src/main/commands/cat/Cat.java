@@ -21,8 +21,7 @@ public class Cat implements ActionCommand{
 
     private IODataStreamInreface iostream;
     private boolean dispNumLine=true;
-    private boolean dispCharEndLine = true;
-    
+    private boolean dispCharEndLine = true;    
     private char charEnd = '$';
     
     public Cat(){
